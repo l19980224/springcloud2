@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mysql.mappers.cdbmapper.dao.PowerBankInfoMapper">
+  <resultMap id="BaseResultMap" type="com.mysql.mappers.cdbmapper.beans.PowerBankInfo">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="POWER_BANK_NO" jdbcType="VARCHAR" property="powerBankNo" />
+    <result column="STATUS" jdbcType="CHAR" property="status" />
+    <result column="CREATER_ID" jdbcType="VARCHAR" property="createrId" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+</mapper>

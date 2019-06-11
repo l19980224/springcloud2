@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mysql.mappers.cdbmapper.dao.UserInfoMapper">
+  <resultMap id="BaseResultMap" type="com.mysql.mappers.cdbmapper.beans.UserInfo">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="NICK_NAME" jdbcType="VARCHAR" property="nickName" />
+    <result column="PHONE_NUM" jdbcType="VARCHAR" property="phoneNum" />
+    <result column="WX_NAME" jdbcType="VARCHAR" property="wxName" />
+    <result column="OPEN_ID" jdbcType="VARCHAR" property="openId" />
+    <result column="ALIPAY_NAME" jdbcType="VARCHAR" property="alipayName" />
+    <result column="ALIPAY_LOG" jdbcType="VARCHAR" property="alipayLog" />
+    <result column="WX_LOG" jdbcType="VARCHAR" property="wxLog" />
+    <result column="SEX" jdbcType="CHAR" property="sex" />
+    <result column="BIRTHDAY" jdbcType="VARCHAR" property="birthday" />
+    <result column="STATUS" jdbcType="CHAR" property="status" />
+    <result column="PLATFORM_ID" jdbcType="VARCHAR" property="platformId" />
+    <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="UNIONID" jdbcType="VARCHAR" property="unionid" />
+  </resultMap>
+</mapper>

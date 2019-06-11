@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mysql.mappers.cdbmapper.dao.AgentInfoMapper">
+  <resultMap id="BaseResultMap" type="com.mysql.mappers.cdbmapper.beans.AgentInfo">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="AGENT_NO" jdbcType="VARCHAR" property="agentNo" />
+    <result column="AGENT_NAME" jdbcType="VARCHAR" property="agentName" />
+    <result column="HEAD_IMG_URL" jdbcType="VARCHAR" property="headImgUrl" />
+    <result column="STATUS" jdbcType="CHAR" property="status" />
+    <result column="TYPE" jdbcType="CHAR" property="type" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="PROPORTION" jdbcType="VARCHAR" property="proportion" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="IS_DELETE" jdbcType="CHAR" property="isDelete" />
+    <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+    <result column="UPGRADE_AGENT_TIME" jdbcType="TIMESTAMP" property="upgradeAgentTime" />
+    <result column="PLATFORM_ID" jdbcType="VARCHAR" property="platformId" />
+    <result column="CREATER_ID" jdbcType="VARCHAR" property="createrId" />
+  </resultMap>
+</mapper>

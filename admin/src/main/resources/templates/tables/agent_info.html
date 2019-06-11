@@ -1,0 +1,305 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtmll-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="utf-8">
+    <title>代理管理</title>
+    <link rel="stylesheet" th:href="@{/css/layui.css}" href="../../static/css/layui.css" media="all" />
+</head>
+<body>
+<!--***********************************************************弹出修改div-->
+<div id="edit_cabinet" >
+    <div id="dict-edit-window" class="layui-form layui-layer-wrap"
+         style="margin: 10%;display:none;">
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 25%">
+                <span style="color: red">★</span>合伙人名称：</label>
+            <div class="layui-input-block" >
+                <input type="text" id="agentNamecg"
+                       placeholder="请输入合伙人名称" autocomplete="off"
+                       class="layui-input" style="width: 80%">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 25%">
+                <span style="color: red">★</span>合伙人电话：</label>
+            <div class="layui-input-block" >
+                <input type="text" id="phonecg"
+                       placeholder="请输入合伙人电话" autocomplete="off"
+                       class="layui-input" style="width: 80%">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 25%">
+                <span style="color: red">★</span>分成比例：</label>
+            <div class="layui-input-block" >
+                <input type="text"  id="proportioncg"
+                       placeholder="请输入分成比例" autocomplete="off"
+                       class="layui-input" style="width: 80%">
+            </div>
+        </div>
+
+    </div>
+</div>
+<!--***********************************************************文件上传div-->
+<div class="layui-upload" style="margin: 1.5%">
+    <button type="button" class="layui-btn layui-btn-normal" id="addinfo">添加代理信息</button>
+    <button type="button" class="layui-btn layui-btn-normal" id="tiaozhuan">点我跳转到下一个</button>
+</div>
+<!--***********************************************************条件查询div-->
+<div class="search-item layui-form">
+<div class="test-table-reload-btn" style="margin: 20px;">
+    合伙人名称：
+    <div class="layui-inline">
+        <input class="layui-input" name="agentName" id="agentName"
+               autocomplete="off">
+    </div>
+    合伙人电话：
+    <div class="layui-inline">
+        <input type="text" name="phone" id="phone" class="layui-input">
+    </div>
+    合伙人类型：
+    <div class="layui-inline" >
+            <select id="type">
+                <option value="">请选择</option>
+                <option value="1">钻石</option>
+                <option value="2">白金</option>
+                <option value="3">黄金</option>
+            </select>
+    </div>
+
+    <button class="layui-btn" data-type="reload">搜索</button>
+</div>
+</div>
+<!--***********************************************************显示表格tble-->
+<table id="demo" lay-filter="test"></table>
+<script type="text/javascript" th:inline="javascript" th:src="@{/layui.js}" src="../../static/layui.js"></script>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-radius layui-btn-xs layui-btn-danger" lay-event="delt">删除</a>
+</script>
+
+<script type="text/javascript" th:inline="javascript">
+    layui.use(['layer', 'jquery','table', 'element','upload'], function(){
+        var $ = layui.$
+            ,layer = layui.layer;
+        var table  = layui.table;
+        var upload = layui.upload;
+
+
+        var sss = $("#test-table-demoReload").val();
+        //第一个实例
+        table.render({
+            elem: '#demo'
+            ,height: 473
+            ,url: '/admin/agentinfo' //数据接口
+            ,page: true //开启分页
+            ,id: 'idTest'
+            ,cols: [
+                [ //表头
+                {field:'agentNo', title: '合伙人编号',  sort: true, fixed: 'left' ,width:180}
+                    ,{field: 'agentName', title: '合伙人名称'}
+                    ,{field: 'phone', title: '合伙人电话'}
+                    ,{field: 'type', title: '合伙人类型', sort: true, templet: '#typemd'}
+                    ,{templet: function(cc){
+                        if (cc.proportion) {
+                            return cc.proportion + ' %';
+                        }else{
+                            return '';
+                        }
+                        }, title: '分成比例' , sort: true}
+                    ,{fixed: 'right', title:'操作', toolbar: '#barDemo'}
+                    ]
+            ]
+        });
+
+        // 条件查询
+        var $ = layui.$, active = {
+            reload: function(){
+                var agentName = $('#agentName');
+                var phone = $('#phone');
+                var type = $('#type');
+
+        table.reload('idTest', {
+            url : '/admin/agentinfoselect'
+            , where: { //设定异步数据接口的额外参数，任意设
+                agentName : agentName.val(),
+                phone : phone.val(),
+                type: type.val(),
+            }
+            , page: {
+                curr: 1 //重新从第 1 页开始
+            }
+        });
+            }
+        };
+        $('.test-table-reload-btn .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        // 条件查询结束
+
+
+        // 监听行工具修改事件
+        table.on('tool(test)', function(obj){
+            var data = obj.data;
+
+            if(obj.event === 'edit') {
+
+                $('#agentNamecg').val(data.agentName);
+                $('#phonecg').val(data.phone);
+                $('#proportioncg').val(data.proportion);
+
+                layer.open({
+                    type: 1
+                    ,area: ["500px", "380px"]
+                    ,closeBtn: 0                   // [0,1]隐藏右上角的关闭按钮
+                    ,shadeClose: true              // 表示点击阴影部分是否关闭
+                    ,anim: 4                        //[0小变大,1上入,2下入,3左入,4左边翻斗进入,5渐入,6抖动]动画类型
+                    //1是string 2 content是一个页面 4是['内容','url']tips
+                    ,content: $('#dict-edit-window')
+                    ,btn: ['确认', '取消']
+                    , yes: function(index, layero){
+
+                        var agentName = $('#agentNamecg').val();
+                        var phone = $('#phonecg').val();
+                        var proportion = $('#proportioncg').val();
+
+                        return $.ajax({
+                            url: '/admin/agentchange',
+                            type: 'get',
+                            dataType: 'json',
+                            data: {
+                                agentName : agentName
+                                ,phone : phone
+                                ,proportion : proportion
+                                , agentNo : data.agentNo
+                            }
+                            ,success: function(data) {
+                                if (data == 1) {
+                                    layer.msg('修改成功', function () {
+                                        window.location.reload();
+                                    });
+                                } else if (data == 0) {
+                                    layer.alert("失败,请重试或联系管理员");
+                                }
+                            }
+                        });
+                        layer.close(index);
+                    }
+
+                    , btn2: function (index, layero) {
+                        //按钮【按钮二】的回调
+                    }
+                    ,success: function(layero){
+                        layero.find('.layui-layer-btn').css('text-align', 'center')
+                    }
+
+                    ,end : function () {
+                        $('#dict-edit-window').hide();
+                    }
+                });
+
+            }
+            // 删除事件
+            else if(obj.event === 'delt') {
+                $.ajax({
+                    // url:'http://up.kuman.cn/settle/cancel',
+                    url: '/admin/agentdel',
+                    type: 'get',
+                    dataType: 'json',
+                    data: {
+                        agentNo: data.agentNo
+                    },
+                    success: function (data) {
+                        if (data == 1) {
+                            layer.msg('删除成功', function () {
+                                window.location.reload();
+                            });
+                        } else if (data == 0) {
+                            layer.alert("失败,请重试或联系管理员");
+                        }
+                        layer.close(index);
+                    }
+                });
+
+            }
+            // 删除结束
+
+
+
+        });
+        // 修改结束
+
+        // 跳转
+        $('#tiaozhuan').on('click', function(){
+            window.location.href = '/admin/cabinet';
+        });
+        $('#addinfo').on('click', function(){
+            $('#agentNamecg').val('');
+            $('#phonecg').val('');
+            $('#proportioncg').val('');
+            layer.open({
+                type: 1
+                ,area: ["500px", "380px"]
+                ,closeBtn: 0                   // [0,1]隐藏右上角的关闭按钮
+                ,shadeClose: true              // 表示点击阴影部分是否关闭
+                ,anim: 4                        //[0小变大,1上入,2下入,3左入,4左边翻斗进入,5渐入,6抖动]动画类型
+                //1是string 2 content是一个页面 4是['内容','url']tips
+                ,content: $('#dict-edit-window')
+                ,btn: ['确认', '取消']
+                , yes: function(index, layero){
+
+                    var agentName = $('#agentNamecg').val();
+                    var phone = $('#phonecg').val();
+                    var proportion = $('#proportioncg').val();
+
+                    return $.ajax({
+                        url: '/admin/agentadd',
+                        type: 'get',
+                        dataType: 'json',
+                        data: {
+                            agentName : agentName
+                            ,phone : phone
+                            ,proportion : proportion
+                        }
+                        ,success: function(data) {
+                            if (data == 1) {
+                                layer.msg('添加成功', function () {
+                                    window.location.reload();
+                                });
+                            } else if (data == 0) {
+                                layer.alert("操作失败,请重试或联系管理员");
+                            }
+                        }
+                    });
+                    layer.close(index);
+                }
+
+                , btn2: function (index, layero) {
+                    //按钮【按钮二】的回调
+                }
+                ,success: function(layero){
+                    layero.find('.layui-layer-btn').css('text-align', 'center')
+                }
+
+                ,end : function () {
+                    $('#dict-edit-window').hide();
+                }
+            });
+        });
+
+    });
+
+</script>
+<script type="text/html" id="typemd">
+    {{#  if(d.type == 1){ }}
+    钻石合伙人
+    {{#  } else if (d.type == 2) { }}
+    白金合伙人
+    {{#  } else if (d.type == 3) { }}
+    黄金合伙人
+    {{#  } }}
+</script>
+</body>
+</html>

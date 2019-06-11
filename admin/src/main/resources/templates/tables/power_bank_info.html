@@ -1,0 +1,323 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtmll-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="utf-8">
+    <title>充电宝管理</title>
+    <link rel="stylesheet" th:href="@{/css/layui.css}" href="../../static/css/layui.css" media="all" />
+</head>
+<body>
+<!--***********************************************************控制台-->
+<!--<div class="layui-layout layui-layout-admin kit-layout-admin">-->
+    <!--<div class="layui-header">-->
+        <!--<div class="layui-logo">&nbsp;袋鼠充电管理平台</div>-->
+        <!--<ul class="layui-nav layui-layout-left kit-nav" >-->
+            <!--<li class="layui-nav-item">-->
+                <!--<a href="/admin/cabinet" class="oneLevelMenu" >系统</a></li>-->
+            <!--<li class="layui-nav-item">-->
+                <!--<a href="/admin/agent_info" class="oneLevelMenu" >代理管理</a></li>-->
+            <!--<li class="layui-nav-item">-->
+                <!--<a href="/admin/cabinet" class="oneLevelMenu" >机柜管理</a></li>-->
+            <!--<li class="layui-nav-item">-->
+                <!--<a href="/admin/power_bank_info" class="oneLevelMenu" >充电宝管理</a></li>-->
+
+            <!--<span class="layui-nav-bar" style="left: 94.5px; top: 50px; width: 0px; opacity: 0;"></span></ul>-->
+
+        <!--<ul class="layui-nav layui-layout-right kit-nav">-->
+            <!--&lt;!&ndash;<li class="layui-nav-item">&ndash;&gt;-->
+            <!--&lt;!&ndash;<a href="">控制台&ndash;&gt;-->
+            <!--&lt;!&ndash;&lt;!&ndash;<span class="layui-badge">6</span>&ndash;&gt;&ndash;&gt;-->
+            <!--&lt;!&ndash;</a>&ndash;&gt;-->
+            <!--&lt;!&ndash;</li>&ndash;&gt;-->
+            <!--&lt;!&ndash;<li class="layui-nav-item">&ndash;&gt;-->
+            <!--&lt;!&ndash;<a href="">个人中心<span class="layui-badge-dot"></span></a>&ndash;&gt;-->
+            <!--&lt;!&ndash;</li>&ndash;&gt;-->
+            <!--<li class="layui-nav-item" lay-unselect="">-->
+                <!--<a href="javascript:;">-->
+                    <!--<img src="/static/jpg/Qsaber.png" th:src="@{/jpg/Qsaber.png}" class="layui-nav-img">SABER</a>-->
+                <!--<dl class="layui-nav-child">-->
+                    <!--<dd><a href="javascript:;">修改信息</a></dd>-->
+                    <!--<dd><a href="javascript:;">安全管理</a></dd>-->
+                    <!--<dd><a href="javascript:;">退了</a></dd>-->
+                <!--</dl>-->
+            <!--</li>-->
+        <!--</ul>-->
+    <!--</div>-->
+    <!--&lt;!&ndash;***********************************************************左侧控制台&ndash;&gt;-->
+    <!--<div class="layui-side layui-bg-black kit-side">-->
+        <!--<div class="layui-side-scroll">-->
+            <!--<div class="kit-side-fold"><i class="fa fa-navicon" aria-hidden="true"></i></div>-->
+            <!--<ul class="layui-nav layui-nav-tree layui-inline"-->
+                <!--lay-filter="demo" style="margin-right: 10px;">-->
+                <!--<li class="layui-nav-item layui-nav-itemed">-->
+                    <!--<a href="javascript:;">默认展开</a>-->
+                    <!--<dl class="layui-nav-child">-->
+                        <!--<dd><a href="javascript:;">选项一</a></dd>-->
+                        <!--<dd><a href="javascript:;">选项二</a></dd>-->
+                        <!--<dd><a href="javascript:;">选项三</a></dd>-->
+                        <!--<dd><a href="">跳转项</a></dd>-->
+                    <!--</dl>-->
+                <!--</li>-->
+                <!--<li class="layui-nav-item"><a href="">云市场</a></li>-->
+                <!--<li class="layui-nav-item"><a href="">社区</a></li>-->
+            <!--</ul>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--***********************************************************主体开始!!!!!!!!!!!!!!!-->
+<!--<div class="layui-body">-->
+<!--***********************************************************文件上传div-->
+<div class="layui-upload" style="margin: 1.5%">
+    <button type="button" class="layui-btn layui-btn-normal" id="addinfo">添加充电宝信息</button>
+    <button type="button" class="layui-btn layui-btn-normal" id="tiaozhuan">点我跳转到下一个</button>
+    <!--<button type="button" class="layui-btn" id="uploadtest2">开始上传</button>-->
+</div>
+<!--***********************************************************条件查询div-->
+<div class="search-item layui-form">
+<div class="test-table-reload-btn" style="margin: 20px;">
+    充电宝序列号：
+    <div class="layui-inline">
+        <input class="layui-input" name="powerBankNo" id="powerBankNo"
+               autocomplete="off">
+    </div>
+    创建时间：
+    <div class="layui-inline">
+        <input type="text" placeholder="请选择创建时间" id="createTimestr" class="layui-input">
+    </div>
+    状态：
+    <div class="layui-inline" >
+            <select id="status">
+                <option value="">请选择</option>
+                <option value="0">可用</option>
+                <option value="1">不可用</option>
+            </select>
+    </div>
+
+    <button class="layui-btn" data-type="reload">搜索</button>
+
+
+</div>
+</div>
+<!--***********************************************************显示表格tble-->
+<table id="demo" lay-filter="test"></table>
+<!--</div>-->
+<!--</div>-->
+<script type="text/javascript" th:inline="javascript" th:src="@{/layui.js}" src="../../static/layui.js"></script>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">修改充电宝序列号</a>
+    <a class="layui-btn layui-btn-radius layui-btn-xs layui-btn-danger" lay-event="delt">删除</a>
+</script>
+
+<script type="text/javascript" th:inline="javascript">
+    layui.use(['layer', 'jquery','table', 'element','upload','laydate'], function(){
+        var $ = layui.$
+            ,layer = layui.layer;
+        var table  = layui.table;
+        var upload = layui.upload;
+        var laydate = layui.laydate;
+
+        var sss = $("#test-table-demoReload").val();
+        //第一个实例
+        table.render({
+            elem: '#demo'
+            ,height: 473
+            ,url: '/admin/powerbankinfo' //数据接口
+            ,page: true //开启分页
+            ,id: 'idTest'
+            ,cols: [
+                [ //表头
+                {field:'powerBankNo', title: '充电宝序列号',  sort: true, fixed: 'left' ,width:180}
+                    ,{field: 'createTimestr', title: '创建时间'}
+                    ,{field: 'status', title: '状态', sort: true, templet: '#Status1'}
+                    ,{fixed: 'right', title:'操作', toolbar: '#barDemo'}
+                    ]
+            ]
+        });
+
+        // 条件查询
+        var $ = layui.$, active = {
+            reload: function(){
+                var powerBankNo = $('#powerBankNo');
+                var status = $('#status');
+                var createTime = $('#createTimestr');
+
+        table.reload('idTest', {
+            url : '/admin/pbinfoselect'
+            , where: { //设定异步数据接口的额外参数，任意设
+                powerBankNo : powerBankNo.val(),
+                status : status.val(),
+                createTime: createTime.val(),
+            }
+            , page: {
+                curr: 1 //重新从第 1 页开始
+            }
+        });
+            }
+        };
+        $('.test-table-reload-btn .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        //日期常规用法
+        laydate.render({
+            elem: '#createTimestr'
+        });
+        // 条件查询结束
+
+
+
+        // 监听行工具修改事件
+        table.on('tool(test)', function(obj){
+            var data = obj.data;
+
+            //console.log(obj)
+            if(obj.event === 'edit') {
+
+                //成功的开始
+                layer.prompt(
+
+                    {
+                        title: "请输入修改后的序列号"
+                        // , type : 2
+                        , shadeClose: true //点击遮罩关闭
+                        , formType: 0
+                        , value: data.powerBankNo
+                    }, function (value, index) {
+                        // obj.update({
+                        //     id: data.id
+                        // });
+                        return $.ajax({
+                            // url:'http://up.kuman.cn/settle/cancel',
+                            url: '/admin/pbonchange',
+                            type: 'get',
+                            dataType: 'json',
+                            data: {
+                                powerBankNo: value
+                                ,id: data.id
+                            },
+                            success: function (data) {
+                                if (data == 1) {
+                                    layer.msg('成功', function () {
+                                        window.location.reload();
+                                    });
+                                } else if (data == 0) {
+                                    layer.alert("失败,请重试或联系管理员");
+                                }
+                                layer.close(index);
+                            }
+                        });
+                    });
+                //    成功的修改
+            }
+            // 删除事件
+            if(obj.event === 'delt') {
+                $.ajax({
+                    // url:'http://up.kuman.cn/settle/cancel',
+                    url: '/admin/pbondel',
+                    type: 'get',
+                    dataType: 'json',
+                    data: {
+                        id: data.id
+                    },
+                    success: function (data) {
+                        if (data == 1) {
+                            layer.msg('删除成功', function () {
+                                window.location.reload();
+                            });
+                        } else if (data == 0) {
+                            layer.alert("失败,请重试或联系管理员");
+                        }
+                        layer.close(index);
+                    }
+                });
+
+            }
+            // 删除结束
+        });
+        // 修改结束
+
+
+        // 上传开始
+        upload.render({
+            elem: '#uploadtest'
+            ,url: '/admin/uploadtest'
+            ,auto: true                         //自动上传
+            ,accept: 'file'
+            // ,exts: 'json'
+            //允许上传的文件 file video audio 类型zip|rar|7z
+            // ,size: 50                         //最大允许上传的文件大小
+            // ,multiple: true                   //多选
+            // ,bindAction: '#uploadtest2'       //确认按钮
+            // 回调返回三个参数，分别为：
+            // 服务端响应信息res
+            // 当前文件的索引index
+            // 重新上传的方法upload
+            ,done: function(res, index, upload){
+                // console.log(res.total); //得到总文件数
+                // console.log(res.successful); //请求成功的文件数
+                // console.log(res.aborted); //请求失败的文件数
+                //假设code=0代表上传成功
+                if(res.code == 0){
+                    //do something （比如将res返回的图片链接保存到表单的隐藏域）
+                    layer.msg(res.data+'文件上传成功！');
+                }else if (res.code == 1) {
+                    layer.msg(res.data+'文件上传失败！');
+                }else {layer.msg('网络错误！');}
+                //获取当前触发上传的元素，一般用于 elem 绑定 class 的情况，注意：此乃 layui 2.1.0 新增
+                var item = this.item;
+                //文件保存失败
+                //do something
+            }
+            //     function(res){
+            //     alert(res+'正在上传···');
+            //
+            // }
+        });
+
+        // 跳转
+        $('#tiaozhuan').on('click', function(){
+            window.location.href = '/admin/agent_info';
+        });
+        $('#addinfo').on('click', function(){
+            layer.prompt(
+                {
+                    title: "请输入充电宝序列号"
+                    // , type : 2
+                    , shadeClose: true //点击遮罩关闭
+                    , formType: 0
+                }, function (value, index) {
+                    return $.ajax({
+                        // url:'http://up.kuman.cn/settle/cancel',
+                        url: '/admin/pbadd',
+                        type: 'get',
+                        dataType: 'json',
+                        data: {
+                            powerBankNo: value
+                        },
+                        success: function (data) {
+                            if (data == 1) {
+                                layer.msg('成功', function () {
+                                    window.location.reload();
+                                });
+                            } else if (data == 0) {
+                                layer.alert("失败,请重试或联系管理员");
+                            }
+                            layer.close(index);
+                        }
+                    });
+                });
+        });
+
+    });
+
+</script>
+<script type="text/html" id="Status1">
+    {{#  if(d.status == 1){ }}
+    不可用
+    {{#  } else { }}
+    可用
+    {{#  } }}
+</script>
+
+
+</body>
+</html>

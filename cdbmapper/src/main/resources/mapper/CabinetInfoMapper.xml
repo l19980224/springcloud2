@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mysql.mappers.cdbmapper.dao.CabinetInfoMapper">
+  <resultMap id="BaseResultMap" type="com.mysql.mappers.cdbmapper.beans.CabinetInfo">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="CABINET_NO" jdbcType="VARCHAR" property="cabinetNo" />
+    <result column="CABINET_QRCODE" jdbcType="VARCHAR" property="cabinetQrcode" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="USE_STATUS" jdbcType="VARCHAR" property="useStatus" />
+    <result column="AVAILABLE_COUNT" jdbcType="INTEGER" property="availableCount" />
+    <result column="POWER_COUNT" jdbcType="INTEGER" property="powerCount" />
+    <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+    <result column="PLATFORM_ID" jdbcType="VARCHAR" property="platformId" />
+    <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="UPDATED_BY" jdbcType="VARCHAR" property="updatedBy" />
+    <result column="UPDATED_TIME" jdbcType="TIMESTAMP" property="updatedTime" />
+    <result column="BUSINESS_ID" jdbcType="VARCHAR" property="businessId" />
+    <result column="RENT_HOURS" jdbcType="DECIMAL" property="rentHours" />
+    <result column="MAX_RENT" jdbcType="DECIMAL" property="maxRent" />
+  </resultMap>
+</mapper>

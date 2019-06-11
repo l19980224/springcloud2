@@ -1,0 +1,99 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtmll-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="utf-8">
+    <title>用户财务信息</title>
+    <link rel="stylesheet" th:href="@{/css/layui.css}" href="../../static/css/layui.css" media="all" />
+</head>
+<body>
+<!--***********************************************************主体开始!!!!!!!!!!!!!!!-->
+<!--***********************************************************条件查询div-->
+<div class="search-item layui-form">
+<div class="test-table-reload-btn" style="margin: 20px;">
+    账户姓名：
+    <div class="layui-inline">
+        <input class="layui-input" name="accountName" id="accountName"
+               autocomplete="off">
+    </div>
+    <button class="layui-btn" data-type="reload">搜索</button>
+</div>
+<!--***********************************************************显示表格table-->
+<table id="demo" lay-filter="test"></table>
+</div>
+<script type="text/javascript" th:inline="javascript" th:src="@{/layui.js}" src="../../static/layui.js"></script>
+<script type="text/javascript" th:inline="javascript">
+    layui.use(['layer', 'jquery','table', 'element','upload'], function(){
+        var $ = layui.$
+            ,layer = layui.layer;
+        var table  = layui.table;
+        var upload = layui.upload;
+        //第一个实例
+        table.render({
+            elem: '#demo'
+            ,height: 473
+            ,url: '/admin/withdrawall' //数据接口
+            ,page: true //开启分页
+            ,id: 'idTest' //表单名字
+            ,cols: [
+                [ //表头
+                {field:'id', title: '流水号',  sort: true, fixed: 'left' ,width:180}
+                    ,{field: 'accountName', title: '账户姓名', sort: true}
+                    ,{field: 'amount', title: '提现金额', sort: true}
+                    ,{field: 'arrivalAmount', title: '到账金额',  sort: true }
+                    ,{ title: '到账时间',templet:function (d) {
+                        return dateToStr(d.arrivalTime);}
+                        }
+                    // ,{fixed: 'right', title:'操作', toolbar: '#barDemo'}
+                    ]
+            ]
+        });
+        var $ = layui.$, active = {
+            reload: function(){
+                var accountName = $('#accountName');
+        table.reload('idTest', {
+            url : '/admin/withdrawselect'
+            , where: { //设定异步数据接口的额外参数，任意设
+                accountName : accountName.val()
+            }
+            , page: {
+                curr: 1 //重新从第 1 页开始
+            }
+        });
+            }
+        };
+        $('.test-table-reload-btn .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        <!--转换时间格式-->
+        function dateToStr(date) {
+            console.log(date);
+            if (date) {
+                var time = new Date(date.time);
+                console.log(time);
+                var y = time.getFullYear();
+                var M = time.getMonth() + 1;
+                M = M < 10 ? ("0" + M) : M;
+                var d = time.getDate();
+                d = d < 10 ? ("0" + d) : d;
+                var h = time.getHours();
+                h = h < 10 ? ("0" + h) : h;
+                var m = time.getMinutes();
+                m = m < 10 ? ("0" + m) : m;
+                var s = time.getSeconds();
+                s = s < 10 ? ("0" + s) : s;
+                var str = y + "-" + M + "-" + d + " " + h + ":" + m + ":" + s;
+                console.log(str);
+                return str;
+            }else {
+                return "空";
+            }
+
+        }
+    });
+
+
+</script>
+</body>
+</html>

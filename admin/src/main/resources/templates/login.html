@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtmll-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<meta charset="utf-8">
+	<title>login</title>
+
+	<link rel="stylesheet" th:href="@{/style/style.css}" href="../static/style/style.css" media="all"/>
+	<link rel="stylesheet" th:href="@{/css/layui.css}" href="../static/css/layui.css" media="all"/>
+
+	<script type="text/javascript" th:inline="javascript"
+			th:src="@{/style/jquery.min.js}"
+			src="../static/style/jquery.min.js"></script>
+
+	<script type="text/javascript" th:inline="javascript"
+			th:src="@{__${#httpServletRequest.contextPath}__/style/vector.js}"
+			src="../static/style/vector.js"></script>
+
+	<script type="text/javascript" th:inline="javascript"
+			th:src="@{__${#httpServletRequest.contextPath}__/layui.js}"
+			src="../static/layui.js"></script>
+
+</head>
+<body>
+<div id="container">
+	<div id="output">
+		<div class="containerT">
+			<h1>欢 迎</h1>
+			<form class="form" id="entry_form">
+				<input type="text" placeholder="用户名" id="user" name="user" value="admin">
+				<input type="password" placeholder="密码" id="pwd" name="pwd" value="123456">
+
+				<button type="button" id="login_btn" >登录</button>
+
+				<div id="prompt" class="prompt"></div>
+
+			</form>
+		</div>
+	</div>
+</div>
+
+
+
+
+<script type="text/javascript">
+    $(function(){
+        Victor("container", "output");   //登录背景函数
+        $("#entry_name").focus();
+        $(document).keydown(function(event){
+            if(event.keyCode==13){
+                $("#entry_btn").click();
+            }
+        });
+    });
+	layui.use(['layer', 'jquery','table', 'element','upload'], function() {
+		$('#login_btn').on('click', function(){
+				var user = $('#user').val();
+				var pwd = $('#pwd').val();
+				$.ajax({
+					url: '/admin/login',
+					type: 'get',
+					dataType: 'json',
+					data: {
+						user: user
+						, pwd: pwd
+					}
+					, success: function (data) {
+						if (data == 1) {
+							layer.msg('登陆成功', function () {
+								// window.location.reload();
+								window.location.href = '/admin/iframedemo?username='+user;
+							});
+						} else if (data == 0) {
+							layer.alert("登陆失败,请检查账号密码");
+						}
+					}
+					, error: function () {
+						alert("出错!");
+					}
+				});
+		});
+
+	});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mysql.mappers.cdbmapper.dao.PathTestMapper">
+  <resultMap id="BaseResultMap" type="com.mysql.mappers.cdbmapper.beans.PathTest">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="pathid" jdbcType="INTEGER" property="pathid" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="role" jdbcType="INTEGER" property="role" />
+    <result column="path" jdbcType="VARCHAR" property="path" />
+    <result column="pathname" jdbcType="VARCHAR" property="pathname" />
+    <result column="parentpathid" jdbcType="INTEGER" property="parentpathid" />
+  </resultMap>
+</mapper>

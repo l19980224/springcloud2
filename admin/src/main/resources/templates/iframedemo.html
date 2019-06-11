@@ -1,0 +1,166 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtmll-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="utf-8">
+    <title>充电宝管理</title>
+    <link rel="stylesheet" th:href="@{/css/layui.css}" href="../static/css/layui.css" media="all" />
+<style>
+    .layui-tab-item{
+        height: 100%;
+    }
+
+</style>
+
+</head>
+<body class="kit-theme">
+<!--***********************************************************控制台-->
+<div class="layui-layout layui-layout-admin kit-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">&nbsp;袋鼠充电管理平台</div>
+
+        <!--上方功能区**************************************-->
+        <ul class="layui-nav layui-layout-left kit-nav"
+             >
+
+            <!--<li class="layui-nav-item">-->
+                <!--<a href="tables/cabinet.html" class="oneLevelMenu" >系统</a></li>-->
+            <li class="layui-nav-item" th:each="menu : ${menus}">
+                <a href="javascript:;"
+                   th:attr="path=${menu.path},pathname=${menu.pathname},id =${menu.pathid}"
+                   class="oneLevelMenu" th:text="${menu.pathname}"></a></li>
+
+
+            <!--<li class="layui-nav-item">-->
+                <!--<a href="javascript:;" data-options=-->
+                        <!--"{url:'/admin/cabinet',title:'机柜信息',id :'22'}" class="oneLevelMenu" >机柜管理</a></li>-->
+            <!--<li class="layui-nav-item">-->
+                <!--<a href="javascript:;" data-options=-->
+                <!--"{url:'/admin/power_bank_info',title:'充电宝信息',id :'33'}" class="oneLevelMenu" >充电宝管理</a></li>-->
+
+            <span class="layui-nav-bar"
+                  style="left: 94.5px; top: 50px; width: 0px; opacity: 0;"></span>
+        </ul>
+        <ul class="layui-nav layui-layout-right kit-nav">
+            <!--<li class="layui-nav-item">-->
+            <!--<a href="">控制台-->
+            <!--&lt;!&ndash;<span class="layui-badge">6</span>&ndash;&gt;-->
+            <!--</a>-->
+            <!--&lt;!&ndash;</li>&ndash;&gt;you-get -i https://www.t90dyy.tv/play/52620-1-1.html-->
+            <!--<li class="layui-nav-item">-->
+            <!--<a href="">个人中心<span class="layui-badge-dot"></span></a>-->
+            <!--</li>-->
+            <li class="layui-nav-item" lay-unselect="">
+                <a href="javascript:;">
+                    <img src="/static/jpg/Qsaber.png" th:src="${userlogo}"
+                         class="layui-nav-img" th:text="${username}"></a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;">修改信息</a></dd>
+                    <dd><a href="javascript:;">安全管理</a></dd>
+                    <dd><a href="javascript:;">退了</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+    <!--***********************************************************左侧控制台-->
+    <div class="layui-side layui-bg-black kit-side">
+        <div class="layui-side-scroll">
+
+            <ul class="layui-nav layui-nav-tree layui-inline"
+                lay-filter="hbkNavbar" style="margin-right: 10px;">
+
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a href="javascript:;">功能区</a>
+
+                    <dl class="layui-nav-child" id="left-ctrls" >
+                        <!--<dd>-->
+                            <!--<a href="javascript:;"  data-options=-->
+                                <!--"{path:'/admin/agent_info',pathname:'代理信息'}">代理信息</a>-->
+                        <!--</dd>-->
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="">云市场</a></li>
+                <li class="layui-nav-item"><a href="">社区</a></li>
+            </ul>
+            <!--左侧菜单栏 li (dl-dd)-->
+        </div>
+    </div>
+<!--***********************************************************主体开始!!!!!!!!!!!!!!!-->
+    <div class="layui-body" id="container">
+        <div class="layui-tab" lay-filter="tabs" lay-allowClose="true" style="height: 85%">
+            <ul class="layui-tab-title">
+                <li class="layui-this">首页</li>
+            </ul>
+            <div class="layui-tab-content" style="height: 100%">
+                <div class="layui-tab-item layui-show" style="height: 100%">欢迎使用！</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" th:inline="javascript" th:src="@{/layui.js}" src="../static/layui.js"></script>
+<script type="text/javascript" th:inline="javascript">
+    layui.use(['layer', 'jquery','table', 'element','upload'], function() {
+        var $ = layui.$
+            , layer = layui.layer
+            , table = layui.table
+            , upload = layui.upload
+            , laydate = layui.laydate
+            , element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+// ***************************************************************************** 上边菜单栏
+        $('.layui-layout-left a').click(function () {
+            // var options = eval('(' + $(this).attr(path) + ')');
+            var path = $(this).attr('path');
+            var pathname = $(this).attr('pathname');
+            var id = $(this).attr('id');
+
+            element.tabAdd('tabs', {
+                    title: pathname
+                , content: '<iframe scrolling="auto"  frameborder="0"  ' +
+                    'src="' + path + '" style="width:100%;height:100%;"></iframe>'
+                }
+            );
+            $('#left-ctrls dd').remove();
+            $.ajax({
+                url: '/admin/menuinfo',
+                type: 'get',
+                dataType: 'json',
+                data: {
+                    parentpathid: id
+                }
+                ,success: function(data) {
+                    $.each(data,function (i,item) {
+                        $('#left-ctrls').append('<dd><a href="javascript:;"   data-options="{path:\''+item.path+'\',pathname:\''+item.pathname+'\'}">'+item.pathname+'</a></dd>');
+                    })
+                }
+            });
+            $(".layui-tab-title li:last-child").trigger("click");
+
+        });
+//****************************************************************************** 左边菜单栏
+        $('#left-ctrls').delegate('a','click',function () {
+            //         $('#left-ctrls').on('click','a', function () {
+            //删除Class
+            $('#left-ctrls dd').removeClass();
+            var options = eval('(' + $(this).data('options') + ')');
+            var path = options.path;
+            var pathname = options.pathname;
+            element.tabAdd('tabs', {
+                title: pathname
+                , content: '<iframe scrolling="auto"  frameborder="0"  ' +
+                    'src="' + path + '" style="width:100%;height:100%;"></iframe>'
+            });
+            //添加Class
+            $(this).parents('dd').addClass('layui-this');
+
+            //添加tips之后的标签切换 下面那个是需要ID值的
+            $(".layui-tab-title li:last-child").trigger("click");
+            // ,success : function () {
+            //         element.tabChange('tabs', id);
+            //     }
+
+        });
+    });
+
+</script>
+
+</body>
+</html>

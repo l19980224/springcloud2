@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mysql.mappers.cdbmapper.dao.AcntInfoMapper">
+  <resultMap id="BaseResultMap" type="com.mysql.mappers.cdbmapper.beans.AcntInfo">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="ACNT_NO" jdbcType="VARCHAR" property="acntNo" />
+    <result column="PARENTS_ACNT_NO" jdbcType="VARCHAR" property="parentsAcntNo" />
+    <result column="ACNT_NAME" jdbcType="VARCHAR" property="acntName" />
+    <result column="ACNT_PWD" jdbcType="VARCHAR" property="acntPwd" />
+    <result column="CUST_ID" jdbcType="VARCHAR" property="custId" />
+    <result column="CUST_NAME" jdbcType="VARCHAR" property="custName" />
+    <result column="CUST_TYPE" jdbcType="CHAR" property="custType" />
+    <result column="ACNT_BALAN" jdbcType="DECIMAL" property="acntBalan" />
+    <result column="AVAIL_BALAN" jdbcType="DECIMAL" property="availBalan" />
+    <result column="FREEZE_BALAN" jdbcType="DECIMAL" property="freezeBalan" />
+    <result column="ACNT_BELONGS_TO" jdbcType="CHAR" property="acntBelongsTo" />
+    <result column="ACNT_STATE" jdbcType="CHAR" property="acntState" />
+    <result column="ID_TYPE" jdbcType="CHAR" property="idType" />
+    <result column="ID_NO" jdbcType="VARCHAR" property="idNo" />
+    <result column="OFFICE_NO" jdbcType="VARCHAR" property="officeNo" />
+    <result column="MOBILE_NO" jdbcType="VARCHAR" property="mobileNo" />
+    <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+    <result column="CHANNEL_CODE" jdbcType="VARCHAR" property="channelCode" />
+    <result column="CANCEL_DATE" jdbcType="VARCHAR" property="cancelDate" />
+    <result column="IF_OVERDRAW" jdbcType="CHAR" property="ifOverdraw" />
+    <result column="OPEN_DATE" jdbcType="VARCHAR" property="openDate" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="CREATER_ID" jdbcType="VARCHAR" property="createrId" />
+    <result column="CREATE_DATE" jdbcType="VARCHAR" property="createDate" />
+    <result column="CREATE_TIME" jdbcType="VARCHAR" property="createTime" />
+    <result column="UPDATE_ID" jdbcType="VARCHAR" property="updateId" />
+    <result column="UPDATE_DATE" jdbcType="VARCHAR" property="updateDate" />
+    <result column="UPDATE_TIME" jdbcType="VARCHAR" property="updateTime" />
+    <result column="ACNT_TYPE" jdbcType="CHAR" property="acntType" />
+    <result column="PLATFORM_ID" jdbcType="VARCHAR" property="platformId" />
+  </resultMap>
+</mapper>
